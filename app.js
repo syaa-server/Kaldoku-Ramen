@@ -305,7 +305,7 @@ function kirimPesanWhatsApp() {
   teks += `\nTerima kasih! Mohon segera diproses ya kak. 🙏`;
 
   // Nomor WhatsApp Kasir Kaldoku (Ganti dengan nomor WhatsApp aktif Anda, diawali 62)
-  const nomorWhatsApp = '6281234567890'; 
+  const nomorWhatsApp = '6281231827300'; 
   const encodedURL = `https://wa.me/${nomorWhatsApp}?text=${encodeURIComponent(teks)}`;
 
   // Kosongkan keranjang setelah pesanan dikirim (opsional)
