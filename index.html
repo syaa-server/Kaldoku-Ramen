@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kaldoku Ramen — Autentik & Kaya Rasa</title>
+  <meta name="description" content="Pesan ramen autentik Kaldoku langsung dari ponsel Anda. Kaldu gurih, mie kenyal, dan topping melimpah.">
+  
+  <!-- Konfigurasi PWA & Android Install -->
+  <meta name="theme-color" content="#d9381e">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./assets/icon-192.png">
+
+  <!-- Google Fonts (Plus Jakarta Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- File CSS Utama -->
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Container Utama (Mobile-First Wrapper) -->
+  <div class="app-container">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon">🍜</span>
+        <div>
+          <h1>KALDOKU</h1>
+          <p class="tagline">Authentic Rich Broth Ramen</p>
+        </div>
+      </div>
+      <!-- Tombol Install PWA (Muncul otomatis di Android/Chrome jika belum terinstall) -->
+      <button id="btn-install" class="btn-install hidden" aria-label="Install Aplikasi">
+        📲 Install App
+      </button>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 1: DAFTAR MENU RAMEN               -->
+    <!-- ========================================== -->
+    <main id="page-menu" class="page active">
+      
+      <!-- Banner Promo / Info Singkat -->
+      <div class="hero-banner">
+        <h2>Hangatnya Kaldu Asli Jepang</h2>
+        <p>Direbus selama 12 jam untuk menghasilkan kuah kental penuh umami.</p>
+      </div>
+
+      <!-- Filter Kategori Menu -->
+      <nav class="category-tabs" aria-label="Kategori Menu">
+        <button class="tab-btn active" data-category="all">Semua</button>
+        <button class="tab-btn" data-category="signature">Signature</button>
+        <button class="tab-btn" data-category="spicy">Pedas</button>
+        <button class="tab-btn" data-category="side">Topping & Minum</button>
+      </nav>
+
+      <!-- Wadah Daftar Kartu Menu (Diisi otomatis oleh app.js) -->
+      <section id="menu-list" class="menu-grid">
+        <!-- Contoh struktur yang akan di-render oleh JavaScript -->
+        <p class="loading-text">Memuat menu lezat Kaldoku...</p>
+      </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 2: RINGKASAN & PEMESANAN           -->
+    <!-- ========================================== -->
+    <section id="page-order" class="page hidden">
+      
+      <div class="order-header">
+        <button id="btn-back-menu" class="btn-back">← Kembali ke Menu</button>
+        <h2>Rincian Pesanan</h2>
+      </div>
+
+      <!-- Daftar Item yang Dipilih -->
+      <div class="order-card">
+        <h3>Makanan & Minuman Dipilih</h3>
+        <div id="order-items-list" class="order-items">
+          <!-- Item keranjang dirender otomatis oleh app.js -->
+        </div>
+        <div id="empty-cart-msg" class="empty-state hidden">
+          <p>Keranjang pesanan Anda masih kosong.</p>
+          <button id="btn-empty-back" class="btn-primary">Pilih Ramen Sekarang</button>
+        </div>
+      </div>
+
+      <!-- Ringkasan Biaya -->
+      <div id="price-summary-card" class="order-card">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="subtotal-price">Rp 0</span>
+        </div>
+        <div class="summary-row">
+          <span>Pajak Restoran (PB1 10%)</span>
+          <span id="tax-price">Rp 0</span>
+        </div>
+        <hr class="divider">
+        <div class="summary-row total-row">
+          <span>Total Pembayaran</span>
+          <span id="total-price">Rp 0</span>
+        </div>
+      </div>
+
+      <!-- Form Data Pemesan -->
+      <form id="checkout-form" class="order-card">
+        <h3>Informasi Pemesan</h3>
+        
+        <div class="form-group">
+          <label for="customer-name">Nama Pemesan *</label>
+          <input type="text" id="customer-name" placeholder="Masukkan nama Anda" required>
+        </div>
+
+        <div class="form-group">
+          <label for="order-type">Tipe Pesanan *</label>
+          <select id="order-type" required>
+            <option value="Dine-In">Makan di Tempat (Dine-In)</option>
+            <option value="Takeaway">Bawa Pulang (Takeaway)</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="table-group">
+          <label for="table-number">Nomor Meja</label>
+          <input type="number" id="table-number" placeholder="Contoh: 05" min="1">
+        </div>
+
+        <div class="form-group">
+          <label for="order-notes">Catatan Tambahan (Opsional)</label>
+          <textarea id="order-notes" rows="2" placeholder="Contoh: Level pedas 2, daun bawang dipisah..."></textarea>
+        </div>
+
+        <button type="submit" id="btn-submit-wa" class="btn-whatsapp">
+          💬 Pesan Sekarang via WhatsApp
+        </button>
+      </form>
+
+    </section>
+
+    <!-- FLOATING CART BAR (Muncul di bawah saat ada item di keranjang) -->
+    <div id="floating-cart" class="floating-cart hidden">
+      <div class="cart-info">
+        <span id="cart-count" class="badge">0 Item</span>
+        <span id="cart-floating-total" class="floating-total">Rp 0</span>
+      </div>
+      <button id="btn-view-order" class="btn-checkout-nav">
+        Lihat Pesanan →
+      </button>
+    </div>
+
+  </div>
+
+  <!-- File JavaScript Utama -->
+  <script src="./app.js"></script>
+
+  <!-- Registrasi Service Worker untuk PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('Service Worker Kaldoku terdaftar:', reg.scope))
+          .catch((err) => console.error('Gagal mendaftarkan Service Worker:', err));
+      });
+    }
+  </script>
+</body>
+</html>
